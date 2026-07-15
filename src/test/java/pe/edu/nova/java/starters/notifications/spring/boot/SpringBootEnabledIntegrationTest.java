@@ -6,38 +6,54 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
 import pe.edu.nova.java.libs.notifications.application.facade.NotificationFacade;
 import pe.edu.nova.java.libs.notifications.domain.model.EmailNotification;
 import pe.edu.nova.java.libs.notifications.domain.result.NotificationResult;
 import pe.edu.nova.java.libs.notifications.domain.vo.EmailAddress;
 import pe.edu.nova.java.libs.notifications.domain.vo.MessageBody;
 import pe.edu.nova.java.libs.notifications.domain.vo.Subject;
-import pe.edu.nova.java.libs.notifications.infrastructure.configuration.ResilienceConfiguration;
+import pe.edu.nova.java.libs.notifications.infrastructure.configuration.NotificationConfiguration;
 
 /**
- * Smoke test: when the starter is on the classpath and a single channel is
- * configured, the {@code NotificationFacade} bean is auto-wired and works
- * end-to-end (sends a simulated email and returns a SENT result).
+ * Integration test for the Spring Boot starter when
+ * {@code nova.notifications.*} is configured with the email channel.
+ *
+ * <p>Boots a real Spring application context via {@code @SpringBootTest},
+ * which exercises the full
+ * {@link org.springframework.boot.autoconfigure.AutoConfiguration} chain
+ * (binding, {@code @ConditionalOnMissingBean}, etc.).
  */
-@SpringBootTest(classes = SpringBootSmokeTest.TestApp.class, properties = {
+@SpringBootTest(classes = SpringBootEnabledIntegrationTest.TestApp.class, properties = {
         "nova.notifications.email.provider=SENDGRID",
         "nova.notifications.email.api-key=test-api-key",
         "nova.notifications.email.default-sender=no-reply@example.com",
         "nova.notifications.resilience.max-attempts=1"
 })
-class SpringBootSmokeTest {
+class SpringBootEnabledIntegrationTest {
 
     @Autowired
     private NotificationFacade facade;
 
     @Autowired
-    private ApplicationContext context;
+    private NotificationConfiguration configuration;
 
     @Test
     void starterAutoWiresTheNotificationFacadeBean() {
         assertThat(facade).isNotNull();
-        assertThat(context.getBean(NotificationFacade.class)).isSameAs(facade);
+    }
+
+    @Test
+    void configurationBeanHasEmailChannelFromProperties() {
+        assertThat(configuration.email()).isPresent();
+        assertThat(configuration.email().get().provider().name()).isEqualTo("SENDGRID");
+        assertThat(configuration.email().get().apiKey()).isEqualTo("test-api-key");
+    }
+
+    @Test
+    void otherChannelsAreNotConfigured() {
+        assertThat(configuration.sms()).isEmpty();
+        assertThat(configuration.push()).isEmpty();
+        assertThat(configuration.slack()).isEmpty();
     }
 
     @Test
