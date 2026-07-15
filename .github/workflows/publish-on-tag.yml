@@ -84,13 +84,10 @@ jobs:
           # the way bash `||` does; we do it in shell instead.
           if [ -n "${TOKEN_A}" ]; then
             echo "value=${TOKEN_A}" >> "$GITHUB_OUTPUT"
-            echo "Resolved from NOVA_PACKAGES_READ_TOKEN (length=${#TOKEN_A})"
           elif [ -n "${TOKEN_B}" ]; then
             echo "value=${TOKEN_B}" >> "$GITHUB_OUTPUT"
-            echo "Resolved from NOVA_RELEASE_PAT (length=${#TOKEN_B})"
           else
             echo "value=${TOKEN_C}" >> "$GITHUB_OUTPUT"
-            echo "Resolved from GITHUB_TOKEN (length=${#TOKEN_C})"
           fi
 
       - name: Publish to GitHub Packages
