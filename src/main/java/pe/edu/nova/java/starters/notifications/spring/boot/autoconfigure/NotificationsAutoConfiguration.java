@@ -30,7 +30,7 @@ import pe.edu.nova.java.libs.notifications.infrastructure.configuration.SmsProvi
  * <p>When the starter is on the classpath, the application only needs to:
  * <ol>
  *     <li>Declare a dependency on {@code nova-notifications-spring-boot-starter}.</li>
- *     <li>Configure credentials under {@code galaxy-training.notifications.*} in
+ *     <li>Configure credentials under {@code nova.notifications.*} in
  *         {@code application.yml} / {@code application.properties}.</li>
  *     <li>Inject {@code NotificationFacade} anywhere in the app.</li>
  * </ol>
@@ -42,7 +42,7 @@ import pe.edu.nova.java.libs.notifications.infrastructure.configuration.SmsProvi
  */
 @AutoConfiguration
 @ConditionalOnClass(NotificationFacade.class)
-@ConditionalOnProperty(prefix = "galaxy-training.notifications", name = "enabled",
+@ConditionalOnProperty(prefix = "nova.notifications", name = "enabled",
         havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties(NotificationsProperties.class)
 public class NotificationsAutoConfiguration {

@@ -7,15 +7,18 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 /**
  * Spring Boot configuration properties for the notifications starter.
  *
- * <p>Prefix is {@code galaxy-training.notifications.*} (legacy naming, kept for
- * consistency with the other Nova starters; see NOVA-SEMVER backlog for the
- * pending migration to {@code nova.*}).
+ * <p>Prefix is {@code nova.notifications.*} — follows the same convention as
+ * the newer Nova starters (e.g. {@code nova-observability-spring-boot-starter},
+ * which uses {@code nova.observability.*}). The older legacy starters
+ * ({@code nova-mask-starter}, {@code nova-api-standard-starter}) still use
+ * {@code galaxy-training.*}; a global migration is tracked in the meta-framework
+ * backlog.
  *
  * <p>Every nested channel is optional: only configure the channels you want to
  * use. The pure library also accepts Java-only configuration via
  * {@code NotificationConfiguration.builder()}.
  */
-@ConfigurationProperties(prefix = "galaxy-training.notifications")
+@ConfigurationProperties(prefix = "nova.notifications")
 public class NotificationsProperties {
 
     private boolean enabled = true;

@@ -21,10 +21,10 @@ import pe.edu.nova.java.libs.notifications.infrastructure.configuration.Resilien
  * end-to-end (sends a simulated email and returns a SENT result).
  */
 @SpringBootTest(classes = SpringBootSmokeTest.TestApp.class, properties = {
-        "galaxy-training.notifications.email.provider=SENDGRID",
-        "galaxy-training.notifications.email.api-key=test-api-key",
-        "galaxy-training.notifications.email.default-sender=no-reply@example.com",
-        "galaxy-training.notifications.resilience.max-attempts=1"
+        "nova.notifications.email.provider=SENDGRID",
+        "nova.notifications.email.api-key=test-api-key",
+        "nova.notifications.email.default-sender=no-reply@example.com",
+        "nova.notifications.resilience.max-attempts=1"
 })
 class SpringBootSmokeTest {
 
