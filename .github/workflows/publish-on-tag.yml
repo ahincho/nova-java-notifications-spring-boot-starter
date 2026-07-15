@@ -81,7 +81,9 @@ jobs:
           NOVA_PACKAGES_READ_TOKEN: ${{ secrets.NOVA_PACKAGES_READ_TOKEN || secrets.NOVA_RELEASE_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Debug token length
-        if: failure()
+        if: always()
+        env:
+          NOVA_PACKAGES_READ_TOKEN: ${{ secrets.NOVA_PACKAGES_READ_TOKEN || secrets.NOVA_RELEASE_PAT || secrets.GITHUB_TOKEN }}
         run: |
           echo "NOVA_PACKAGES_READ_TOKEN length: ${#NOVA_PACKAGES_READ_TOKEN}"
           echo "NOVA_RELEASE_PAT secret exists: ${{ secrets.NOVA_RELEASE_PAT != '' }}"
