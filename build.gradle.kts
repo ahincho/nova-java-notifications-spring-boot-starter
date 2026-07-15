@@ -21,7 +21,7 @@ repositories {
     mavenLocal()
 }
 
-val springBootVersion = "3.5.0"
+val springBootVersion = "4.1.0"
 val junitVersion = "6.0.0"
 val assertjVersion = "3.26.3"
 val mockitoVersion = "5.18.0"
