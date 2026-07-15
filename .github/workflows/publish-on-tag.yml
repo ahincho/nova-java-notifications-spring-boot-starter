@@ -79,3 +79,10 @@ jobs:
           # Used only to READ internal Nova Platform dependencies published in other
           # repos' GitHub Packages (GITHUB_TOKEN cannot read packages cross-repo).
           NOVA_PACKAGES_READ_TOKEN: ${{ secrets.NOVA_PACKAGES_READ_TOKEN || secrets.NOVA_RELEASE_PAT || secrets.GITHUB_TOKEN }}
+
+      - name: Debug token length
+        if: failure()
+        run: |
+          echo "NOVA_PACKAGES_READ_TOKEN length: ${#NOVA_PACKAGES_READ_TOKEN}"
+          echo "NOVA_RELEASE_PAT secret exists: ${{ secrets.NOVA_RELEASE_PAT != '' }}"
+          echo "First 4 chars of token: ${NOVA_PACKAGES_READ_TOKEN:0:4}..."
